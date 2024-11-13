@@ -5,6 +5,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --red-00: #fff8f6;
+  --red-01: #fff2f0;
+  --red-02: #ffd1ca;
+  --red-03: #fba79e;
+  --red-04: #de4432;
+  --red-0401: #e44735;
+  --red-0410: rgba(222, 68, 50, 0.1);
+  --red-0402: #c11b1b;
+  --red-05: #7d1212;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -13,9 +22,20 @@
     --foreground: #ededed;
   }
 }
+/* 웹폰트 설정 */
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  /* background: var(--background); */
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: "GmarketSansMedium", sans-serif;
+  font-feature-settings: "lnum";
+  margin-top: 5vh;
 }

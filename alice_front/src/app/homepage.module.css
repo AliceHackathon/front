@@ -1,0 +1,51 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 70%, #fff2f0 100%);
+}
+
+.textWrapper {
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.text {
+  font-family: "GmarketSansMedium", sans-serif;
+  font-size: 2rem;
+}
+
+.red_05 {
+  color: var(--red-05);
+}
+
+.red_0401 {
+  color: var(--red-0401);
+  font-weight: 600;
+}
+
+.button {
+  margin-top: 120px;
+  width: 30%;
+  height: 80px;
+  border-radius: 125px;
+  background-image: linear-gradient(to bottom right, #fba79e, #e44735);
+  font-size: 1.3rem;
+  font-family: "Pretendard-Regular";
+}
+
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
