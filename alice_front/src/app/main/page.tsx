@@ -50,7 +50,7 @@ export default function MainPage() {
       setTranscript(finalTranscript + interimTranscript);
     };
 
-    recognizer.onerror = (event) => {
+    recognizer.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error("Speech Recognition Error:", event.error);
       stopListening();
     };
