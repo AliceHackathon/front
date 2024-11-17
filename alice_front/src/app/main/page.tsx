@@ -8,14 +8,16 @@ import payment from "../images/payment.png";
 import voice from "../images/voice.png";
 import cart from "../images/cart.png";
 // import Card from "@/components/card/card";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function MainPage() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
+  const [chatMessages, setChatMessages] = useState<string[]>([]);
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(
     null
   );
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   // 음성 인식 시작
   const startListening = () => {
@@ -26,7 +28,6 @@ export default function MainPage() {
       return;
     }
 
-    // Web Speech API 초기화
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognizer = new SpeechRecognition();
@@ -48,6 +49,16 @@ export default function MainPage() {
       }
 
       setTranscript(finalTranscript + interimTranscript);
+
+      // 타이머 초기화 및 재설정
+      if (timeoutId) clearTimeout(timeoutId);
+      const newTimeoutId = setTimeout(() => {
+        if (finalTranscript.trim() !== "") {
+          handleChatMessage(finalTranscript.trim());
+        }
+        setTranscript("");
+      }, 3000);
+      setTimeoutId(newTimeoutId);
     };
 
     recognizer.onerror = (event: SpeechRecognitionErrorEvent) => {
@@ -56,7 +67,6 @@ export default function MainPage() {
     };
 
     recognizer.onend = () => {
-      console.log("Speech recognition ended.");
       setIsListening(false);
     };
 
@@ -73,6 +83,30 @@ export default function MainPage() {
     }
   };
 
+  // 채팅 메시지 처리
+  const handleChatMessage = (message: string) => {
+    setChatMessages((prevMessages) => [...prevMessages, message]);
+    sendToServer(message);
+  };
+
+  // 백엔드로 텍스트 전송
+  const sendToServer = async (message: string) => {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      const data = await response.json();
+      console.log("서버 응답:", data);
+    } catch (error) {
+      console.error("서버 통신 오류:", error);
+    }
+  };
+
   return (
     <>
       <div className={styles.characterSection}>
@@ -85,36 +119,15 @@ export default function MainPage() {
           />
         </div>
         <div className={styles.ask}>
-          <p style={{ marginTop: "3px" }}>엘리에게 직접 주문해보세요!</p>
-        </div>
-        <p
-          style={{
-            marginTop: "3px",
-            fontFamily: "Pretendard",
-            color: "rgba(222, 68, 50, 0.5)",
-          }}
-        >
-          말풍선을 누르면 엘리가 적합한 상품을 추천 드릴게요!
-        </p>
-        <div className={styles.container3}>
-          <div className={styles.comment} style={{ marginLeft: "250px" }}>
-            추천 메뉴가 있니?
-          </div>
-          <div className={styles.comment2}>신제품 소개해줘</div>
-          <div className={styles.comment} style={{ marginLeft: "230px" }}>
-            칼로리 적은 거 추천해줘
-          </div>
-        </div>
-        <div className={styles.container4}>
-          <p style={{ color: "#B98585" }}>
-            아래 버튼을 눌러 엘리한테 대화로 주문해보세요
-          </p>
+          <p>엘리에게 직접 주문해보세요!</p>
         </div>
         {/* <Card /> */}
-        {/* 음성 인식 결과를 표시할 div */}
-        <div className={styles.transcriptBox}>
-          <h3>음성 인식 결과:</h3>
-          <p>{transcript || "음성 인식 결과가 여기에 표시됩니다."}</p>
+        <div className={styles.chatBox}>
+          {chatMessages.map((message, index) => (
+            <div key={index} className={styles.chatMessage}>
+              {message}
+            </div>
+          ))}
         </div>
         <footer
           style={{
