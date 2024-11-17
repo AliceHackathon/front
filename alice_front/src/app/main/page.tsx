@@ -38,7 +38,7 @@ export default function MainPage() {
   const [transcript, setTranscript] = useState("");
   const [voiceTranscript, setVoiceTranscript] = useState("");
   const [chatMessages, setChatMessages] = useState(dummyData);
-  const [isModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(
     null
   );
@@ -47,13 +47,6 @@ export default function MainPage() {
 
   useEffect(() => {
     if (!isClient) return;
-
-    if (
-      !("webkitSpeechRecognition" in window || "SpeechRecognition" in window)
-    ) {
-      console.warn("이 브라우저는 음성 인식 기능을 지원하지 않습니다.");
-      return;
-    }
 
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -163,6 +156,12 @@ export default function MainPage() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages]);
 
+  const handleCardClick = () => setIsModalOpen(true);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setVoiceTranscript("");
+  };
+
   return (
     <>
       <div className={styles.characterSection}>
@@ -192,7 +191,7 @@ export default function MainPage() {
 
         <div className={styles.menuList}>
           {menuItems.map((menu, index) => (
-            <Card key={index} menu={menu} />
+            <Card key={index} menu={menu} onClick={handleCardClick} />
           ))}
         </div>
 
@@ -201,26 +200,30 @@ export default function MainPage() {
         <footer
           style={{
             display: "flex",
-            justifyContent: "space-around",
+            justifyContent: "center",
             bottom: 80,
             position: "fixed",
             width: "100%",
-            zIndex: "1001",
+            zIndex: 1001,
           }}
         >
-          <Image
-            src={voice}
-            alt="Voice"
-            className={styles.img}
-            onClick={isListening ? stopListening : startListening}
-            style={{
-              background: isListening ? "#FFCCCC" : "white",
-              borderRadius: "50%",
-            }}
-          />
-          {isModalOpen && (
-            <div className={styles.voiceTranscript}>{voiceTranscript}</div>
-          )}
+          <div style={{ position: "relative" }}>
+            <Image
+              src={voice}
+              alt="Voice"
+              className={styles.img}
+              onClick={isListening ? stopListening : startListening}
+              style={{
+                background: isListening ? "#FFCCCC" : "white",
+                borderRadius: "50%",
+              }}
+            />
+            {isModalOpen && (
+              <div className={styles.voiceTranscript}>
+                {voiceTranscript || "듣는 중..."}
+              </div>
+            )}
+          </div>
         </footer>
       </div>
     </>

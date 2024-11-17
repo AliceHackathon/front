@@ -10,11 +10,19 @@ interface MenuItem {
   price: string;
 }
 
-export default function Card({ menu }: { menu: MenuItem }) {
+interface CardProps {
+  menu: MenuItem;
+  onClick?: () => void; // onClick 속성 추가 (선택적 속성)
+}
+
+export default function Card({ menu, onClick }: CardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCardClick = () => {
     setIsModalOpen(true);
+    if (onClick) {
+      onClick(); // 부모 컴포넌트에서 전달된 onClick 호출
+    }
   };
 
   const handleCloseModal = () => {
@@ -50,7 +58,6 @@ export default function Card({ menu }: { menu: MenuItem }) {
         <p style={{ fontWeight: "600", marginTop: "15px" }}>{menu.price}</p>
       </div>
 
-      {/* 모달이 열려 있을 때만 Modal 컴포넌트를 렌더링 */}
       {isModalOpen && <Modal item={menu} onClose={handleCloseModal} />}
     </>
   );
