@@ -1,15 +1,21 @@
 import styles from "./card.module.css";
 import Image from "next/image";
-
 import hamburger from "../../app/images/hamburger.png";
-export default function Card() {
+
+interface MenuItem {
+  name: string;
+  englishName: string;
+  price: string;
+}
+
+export default function Card({ menu }: { menu: MenuItem }) {
   return (
     <div className={styles.container}>
       <div className={styles.container2}>
-        <Image src={hamburger} alt="" className={styles.img} />
+        <Image src={hamburger} alt={menu.name} className={styles.img} />
       </div>
       <p style={{ fontWeight: "600", fontSize: "18px", marginTop: "5px" }}>
-        더블 1955 버거 세트
+        {menu.name}
       </p>
       <p
         style={{
@@ -18,9 +24,9 @@ export default function Card() {
           fontFamily: "Pretendard",
         }}
       >
-        Double 1955 Burger Meal
+        {menu.englishName}
       </p>
-      <p style={{ fontWeight: "600", marginTop: "15px" }}>8,600원</p>
+      <p style={{ fontWeight: "600", marginTop: "15px" }}>{menu.price}</p>
     </div>
   );
 }
