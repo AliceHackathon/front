@@ -9,7 +9,7 @@ import Card from "@/components/card/card";
 import OvalBackground from "@/components/background/background";
 import NavBar from "@/components/navBar/navBar";
 
-const isClient = typeof window !== "undefined"; // 클라이언트 사이드 체크
+const isClient = typeof window !== "undefined";
 
 const dummyData = [
   { sender: "server", text: "안녕하세요? 오늘 어떠신가요?" },
@@ -36,24 +36,15 @@ const menuItems = [
 export default function MainPage() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
+  const [voiceTranscript, setVoiceTranscript] = useState("");
   const [chatMessages, setChatMessages] = useState(dummyData);
-  const [, setShowMenuCards] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(
     null
   );
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
-  // 텍스트 길이에 따라 너비 계산
-  const getMessageWidth = (text: string) => {
-    const length = text.length;
-    const baseWidth = 80;
-    const maxWidth = isClient ? window.innerWidth * 0.3 : 300;
-    const calculatedWidth = baseWidth + length * 10;
-    return Math.min(calculatedWidth, maxWidth);
-  };
-
-  // 음성 인식 초기화 (클라이언트에서만 실행)
   useEffect(() => {
     if (!isClient) return;
 
@@ -90,7 +81,11 @@ export default function MainPage() {
         }
       }
 
-      setTranscript(finalTranscript + interimTranscript);
+      if (isModalOpen) {
+        setVoiceTranscript(finalTranscript + interimTranscript);
+      } else {
+        setTranscript(finalTranscript + interimTranscript);
+      }
 
       if (timeoutId) clearTimeout(timeoutId);
       const newTimeoutId = setTimeout(() => {
@@ -98,6 +93,7 @@ export default function MainPage() {
           handleUserMessage(finalTranscript.trim());
         }
         setTranscript("");
+        setVoiceTranscript("");
       }, 3000);
       setTimeoutId(newTimeoutId);
     };
@@ -139,7 +135,6 @@ export default function MainPage() {
       ...prevMessages,
       { sender: "server", text: "아래와 같은 메뉴가 있습니다." },
     ]);
-    setShowMenuCards(true);
   };
 
   const sendToServer = async (message: string) => {
@@ -188,7 +183,6 @@ export default function MainPage() {
                   ? styles.userMessage
                   : styles.serverMessage
               }
-              style={{ width: `${getMessageWidth(message.text)}px` }}
             >
               {message.text}
             </div>
@@ -222,10 +216,11 @@ export default function MainPage() {
             style={{
               background: isListening ? "#FFCCCC" : "white",
               borderRadius: "50%",
-              boxShadow:
-                "0 0 20px 10px rgba(222, 68, 50, 0.2), 0 0 40px 20px rgba(222, 68, 50, 0.2)",
             }}
           />
+          {isModalOpen && (
+            <div className={styles.voiceTranscript}>{voiceTranscript}</div>
+          )}
         </footer>
       </div>
     </>
