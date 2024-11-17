@@ -8,6 +8,8 @@ interface MenuItem {
   name: string;
   englishName: string;
   price: string;
+  description: string;
+  image: StaticImageData;
 }
 
 export default function Card({ menu }: { menu: MenuItem }) {

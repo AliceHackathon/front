@@ -37,7 +37,7 @@ export default function MainPage() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [chatMessages, setChatMessages] = useState(dummyData);
-  const [showMenuCards, setShowMenuCards] = useState(false);
+  const [, setShowMenuCards] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(
     null
   );
