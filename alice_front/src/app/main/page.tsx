@@ -198,7 +198,14 @@ export default function MainPage() {
         <footer
           style={{ position: "fixed", bottom: 80, width: "100%", zIndex: 1001 }}
         >
-          <div style={{ position: "relative" }}>
+          <div
+            style={{
+              position: "relative",
+              width: "80px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Image
               src={voice}
               alt="Voice"
