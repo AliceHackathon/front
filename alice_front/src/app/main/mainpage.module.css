@@ -108,6 +108,7 @@
   width: 80px;
   border-radius: 100px;
   padding: 10px;
+  z-index: 6;
 }
 
 .transcriptBox {
@@ -171,4 +172,35 @@
   box-shadow: 6.67px 6.67px 0px #ffdfdb;
   color: #c11b1b;
   font-weight: 500;
+}
+
+.menuList {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  .menuList {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto; /* 가로 스크롤 활성화 */
+    gap: 20px;
+    padding: 20px;
+    scrollbar-width: thin; /* 스크롤바 크기 조정 (Firefox) */
+  }
+}
+
+.menuList::-webkit-scrollbar {
+  height: 8px; /* 스크롤바 높이 조정 */
+}
+
+.menuList::-webkit-scrollbar-thumb {
+  background-color: #d02917;
+  border-radius: 10px;
+}
+
+.characterSection {
+  transition: filter 0.3s;
+}
+
+.blur {
+  filter: blur(5px);
 }

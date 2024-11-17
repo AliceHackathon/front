@@ -5,6 +5,7 @@
   background-image: linear-gradient(to bottom right, #ff8779, #d02917);
   padding: 10px 10px;
   border-radius: 15px;
+  max-width: 180px;
 }
 
 .container p {

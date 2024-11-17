@@ -172,7 +172,7 @@ export default function MainPage() {
     <>
       <div className={styles.characterSection}>
         <div className={styles.container2}>
-          <OvalBackground width="130%" height="40%" />
+          <OvalBackground width="130vw" height="40%" />
           <Image
             src={character}
             alt="Character"
@@ -196,13 +196,11 @@ export default function MainPage() {
           <div ref={chatEndRef} />
         </div>
 
-        {showMenuCards && (
-          <div className={styles.menuList}>
-            {menuItems.map((menu, index) => (
-              <Card key={index} menu={menu} />
-            ))}
-          </div>
-        )}
+        <div className={styles.menuList}>
+          {menuItems.map((menu, index) => (
+            <Card key={index} menu={menu} />
+          ))}
+        </div>
 
         <NavBar />
 
@@ -213,6 +211,7 @@ export default function MainPage() {
             bottom: 80,
             position: "fixed",
             width: "100%",
+            zIndex: "1001",
           }}
         >
           <Image
