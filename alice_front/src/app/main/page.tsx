@@ -157,10 +157,10 @@ export default function MainPage() {
   }, [chatMessages]);
 
   const handleCardClick = () => setIsModalOpen(true);
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setVoiceTranscript("");
-  };
+  // const handleCloseModal = () => {
+  //   setIsModalOpen(false);
+  //   setVoiceTranscript("");
+  // };
 
   return (
     <>
