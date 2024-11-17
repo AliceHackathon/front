@@ -8,7 +8,7 @@ import payment from "../images/payment.png";
 import voice from "../images/voice.png";
 import cart from "../images/cart.png";
 // import Card from "@/components/card/card";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function MainPage() {
   const [isListening, setIsListening] = useState(false);
