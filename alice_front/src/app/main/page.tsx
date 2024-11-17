@@ -9,6 +9,8 @@ import Card from "@/components/card/card";
 import OvalBackground from "@/components/background/background";
 import NavBar from "@/components/navBar/navBar";
 
+const isClient = typeof window !== "undefined"; // 클라이언트 사이드 체크
+
 const dummyData = [
   { sender: "server", text: "안녕하세요? 오늘 어떠신가요?" },
   { sender: "server", text: "엘리에게 직접 주문해보세요!" },
@@ -45,18 +47,20 @@ export default function MainPage() {
   // 텍스트 길이에 따라 너비 계산
   const getMessageWidth = (text: string) => {
     const length = text.length;
-    const baseWidth = 80; // 최소 너비 (픽셀)
-    const maxWidth = window.innerWidth * 0.3; // 최대 너비는 화면의 30%
-    const calculatedWidth = baseWidth + length * 10; // 글자 수에 따라 너비 계산
-    return Math.min(calculatedWidth, maxWidth); // 최대 너비 제한
+    const baseWidth = 80;
+    const maxWidth = isClient ? window.innerWidth * 0.3 : 300;
+    const calculatedWidth = baseWidth + length * 10;
+    return Math.min(calculatedWidth, maxWidth);
   };
 
-  // 음성 인식 시작
-  const startListening = () => {
+  // 음성 인식 초기화 (클라이언트에서만 실행)
+  useEffect(() => {
+    if (!isClient) return;
+
     if (
       !("webkitSpeechRecognition" in window || "SpeechRecognition" in window)
     ) {
-      alert("이 브라우저는 음성 인식 기능을 지원하지 않습니다.");
+      console.warn("이 브라우저는 음성 인식 기능을 지원하지 않습니다.");
       return;
     }
 
@@ -67,7 +71,13 @@ export default function MainPage() {
     recognizer.interimResults = true;
     recognizer.continuous = true;
 
-    recognizer.onresult = (event: SpeechRecognitionEvent) => {
+    setRecognition(recognizer);
+  }, []);
+
+  const startListening = () => {
+    if (!recognition) return;
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       let interimTranscript = "";
       let finalTranscript = transcript;
 
@@ -82,7 +92,6 @@ export default function MainPage() {
 
       setTranscript(finalTranscript + interimTranscript);
 
-      // 타이머 초기화 및 재설정
       if (timeoutId) clearTimeout(timeoutId);
       const newTimeoutId = setTimeout(() => {
         if (finalTranscript.trim() !== "") {
@@ -93,21 +102,19 @@ export default function MainPage() {
       setTimeoutId(newTimeoutId);
     };
 
-    recognizer.onerror = (event: SpeechRecognitionErrorEvent) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error("Speech Recognition Error:", event.error);
       stopListening();
     };
 
-    recognizer.onend = () => {
+    recognition.onend = () => {
       setIsListening(false);
     };
 
-    setRecognition(recognizer);
-    recognizer.start();
+    recognition.start();
     setIsListening(true);
   };
 
-  // 음성 인식 중지
   const stopListening = () => {
     if (recognition) {
       recognition.stop();
@@ -115,7 +122,6 @@ export default function MainPage() {
     }
   };
 
-  // 사용자 메시지 처리
   const handleUserMessage = (message: string) => {
     setChatMessages((prevMessages) => [
       ...prevMessages,
@@ -128,7 +134,6 @@ export default function MainPage() {
     }
   };
 
-  // 메뉴 추천 처리
   const handleMenuRecommendation = () => {
     setChatMessages((prevMessages) => [
       ...prevMessages,
@@ -137,7 +142,6 @@ export default function MainPage() {
     setShowMenuCards(true);
   };
 
-  // 서버로 텍스트 전송
   const sendToServer = async (message: string) => {
     try {
       const response = await fetch("/api/chat", {
@@ -153,7 +157,6 @@ export default function MainPage() {
     }
   };
 
-  // 서버 메시지 처리
   const handleServerMessage = (message: string) => {
     setChatMessages((prevMessages) => [
       ...prevMessages,
@@ -161,7 +164,6 @@ export default function MainPage() {
     ]);
   };
 
-  // 새로운 메시지가 추가될 때 자동 스크롤
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages]);
@@ -213,7 +215,6 @@ export default function MainPage() {
             width: "100%",
           }}
         >
-          {/* <Image src={cart} alt="" className={styles.img} layout="fixed" /> */}
           <Image
             src={voice}
             alt="Voice"
@@ -225,9 +226,7 @@ export default function MainPage() {
               boxShadow:
                 "0 0 20px 10px rgba(222, 68, 50, 0.2), 0 0 40px 20px rgba(222, 68, 50, 0.2)",
             }}
-            layout="fixed"
           />
-          {/* <Image src={payment} alt="" className={styles.img} layout="fixed" /> */}
         </footer>
       </div>
     </>
