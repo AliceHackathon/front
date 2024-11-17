@@ -1,4 +1,4 @@
-import styles from "./voicetranscript.module.css";
+import styles from "./voiceTranscript.module.css";
 
 interface VoiceTranscriptProps {
   text: string;

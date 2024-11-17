@@ -46,7 +46,7 @@ export default function MainPage() {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
-  // 음성 인식 초기화
+  // 음성 인식 초기화 (클라이언트에서만 실행)
   useEffect(() => {
     if (!isClient) return;
 
@@ -76,12 +76,14 @@ export default function MainPage() {
         }
       }
 
+      // 모달이 열려 있으면 voiceTranscript 업데이트
       if (isModalOpen) {
         setVoiceTranscript(finalTranscript + interimTranscript);
       } else {
         setTranscript(finalTranscript + interimTranscript);
       }
 
+      // 3초 후에 텍스트 초기화
       if (timeoutId) clearTimeout(timeoutId);
       const newTimeoutId = setTimeout(() => {
         if (finalTranscript.trim() !== "") {
@@ -120,6 +122,8 @@ export default function MainPage() {
     ]);
     if (message.includes("추천 메뉴")) {
       handleMenuRecommendation();
+    } else {
+      sendToServer(message);
     }
   };
 
@@ -130,11 +134,33 @@ export default function MainPage() {
     ]);
   };
 
+  const sendToServer = async (message: string) => {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
+
+      const data = await response.json();
+      handleServerMessage(data.response);
+    } catch (error) {
+      console.error("서버 통신 오류:", error);
+    }
+  };
+
+  const handleServerMessage = (message: string) => {
+    setChatMessages((prevMessages) => [
+      ...prevMessages,
+      { sender: "server", text: message },
+    ]);
+  };
+
   const handleCardClick = () => setIsModalOpen(true);
-  // const handleCloseModal = () => {
-  //   setIsModalOpen(false);
-  //   setVoiceTranscript("");
-  // };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setVoiceTranscript("");
+  };
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
