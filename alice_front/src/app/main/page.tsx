@@ -7,7 +7,7 @@ import Union from "../images/Union.png";
 import payment from "../images/payment.png";
 import voice from "../images/voice.png";
 import cart from "../images/cart.png";
-import Card from "@/components/card/card";
+// import Card from "@/components/card/card";
 import { useState } from "react";
 
 export default function MainPage() {
