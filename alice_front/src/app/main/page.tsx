@@ -110,7 +110,7 @@ export default function MainPage() {
             아래 버튼을 눌러 엘리한테 대화로 주문해보세요
           </p>
         </div>
-        <Card />
+        {/* <Card /> */}
         {/* 음성 인식 결과를 표시할 div */}
         <div className={styles.transcriptBox}>
           <h3>음성 인식 결과:</h3>
