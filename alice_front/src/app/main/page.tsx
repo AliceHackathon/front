@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import Card from "@/components/card/card";
 import OvalBackground from "@/components/background/background";
 import NavBar from "@/components/navBar/navBar";
+import VoiceTranscript from "@/components/voicetranscript/VoiceTranscript";
 
 const isClient = typeof window !== "undefined";
 
@@ -45,6 +46,7 @@ export default function MainPage() {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
+  // 음성 인식 초기화
   useEffect(() => {
     if (!isClient) return;
 
@@ -118,8 +120,6 @@ export default function MainPage() {
     ]);
     if (message.includes("추천 메뉴")) {
       handleMenuRecommendation();
-    } else {
-      sendToServer(message);
     }
   };
 
@@ -130,49 +130,27 @@ export default function MainPage() {
     ]);
   };
 
-  const sendToServer = async (message: string) => {
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
-      });
-
-      const data = await response.json();
-      handleServerMessage(data.response);
-    } catch (error) {
-      console.error("서버 통신 오류:", error);
-    }
-  };
-
-  const handleServerMessage = (message: string) => {
-    setChatMessages((prevMessages) => [
-      ...prevMessages,
-      { sender: "server", text: message },
-    ]);
+  const handleCardClick = () => setIsModalOpen(true);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setVoiceTranscript("");
   };
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages]);
 
-  const handleCardClick = () => setIsModalOpen(true);
-  // const handleCloseModal = () => {
-  //   setIsModalOpen(false);
-  //   setVoiceTranscript("");
-  // };
-
   return (
     <>
       <div className={styles.characterSection}>
-        <div className={styles.container2}>
-          <OvalBackground width="130vw" height="40%" />
-          <Image
-            src={character}
-            alt="Character"
-            className={styles.characterImage}
-          />
-        </div>
+        <OvalBackground width="130vw" height="40%" />
+        <Image
+          src={character}
+          alt="Character"
+          className={styles.characterImage}
+        />
+        <NavBar />
+
         <div className={styles.chatBox}>
           {chatMessages.map((message, index) => (
             <div
@@ -195,34 +173,17 @@ export default function MainPage() {
           ))}
         </div>
 
-        <NavBar />
-
         <footer
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            bottom: 80,
-            position: "fixed",
-            width: "100%",
-            zIndex: 1001,
-          }}
+          style={{ position: "fixed", bottom: 80, width: "100%", zIndex: 1001 }}
         >
           <div style={{ position: "relative" }}>
             <Image
               src={voice}
               alt="Voice"
-              className={styles.img}
               onClick={isListening ? stopListening : startListening}
-              style={{
-                background: isListening ? "#FFCCCC" : "white",
-                borderRadius: "50%",
-              }}
+              style={{ borderRadius: "50%" }}
             />
-            {isModalOpen && (
-              <div className={styles.voiceTranscript}>
-                {voiceTranscript || "듣는 중..."}
-              </div>
-            )}
+            {isModalOpen && <VoiceTranscript text={voiceTranscript} />}
           </div>
         </footer>
       </div>
