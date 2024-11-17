@@ -1,7 +1,6 @@
-import Image from "next/image";
 import styles from "./homepage.module.css";
-import character from "./images/character.png";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -21,7 +20,14 @@ export default function HomePage() {
             </span>
           </p>
         </div>
-        <Image src={character} alt="character" width={300} height={300} />
+        {/* <Image src={character} alt="character" width={300} height={300} /> */}
+        <Image
+          src="../../public/static/startAnimation.gif"
+          alt="Sample GIF"
+          width={300}
+          height={200}
+          unoptimized
+        />
         <button className={styles.button}>
           <Link href="/main">화면을 눌러주세요 {">"}</Link>
         </button>

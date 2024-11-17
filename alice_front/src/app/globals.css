@@ -31,11 +31,19 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Pretendard-Medium";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff")
+    format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
 body {
   color: var(--foreground);
   /* background: var(--background); */
   /* font-family: Arial, Helvetica, sans-serif; */
-  font-family: "GmarketSansMedium", sans-serif;
+  font-family: "Pretendard-Medium", sans-serif;
   font-feature-settings: "lnum";
   margin-top: 5vh;
 }
