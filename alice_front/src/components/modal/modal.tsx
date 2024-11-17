@@ -1,5 +1,5 @@
 import styles from "./modal.module.css";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import hamburger from "../../app/images/hamburger.png";
 
 interface MenuItem {
