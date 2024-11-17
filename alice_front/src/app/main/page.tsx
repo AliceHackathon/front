@@ -194,7 +194,7 @@ export default function MainPage() {
             <Card key={index} menu={menu} onClick={handleCardClick} />
           ))}
         </div>
-
+        {isModalOpen && <VoiceTranscript text={voiceTranscript} />}
         <footer
           style={{ position: "fixed", bottom: 80, width: "100%", zIndex: 1001 }}
         >
@@ -203,9 +203,15 @@ export default function MainPage() {
               src={voice}
               alt="Voice"
               onClick={isListening ? stopListening : startListening}
-              style={{ borderRadius: "50%" }}
+              className={styles.img}
+              style={{
+                background: "white",
+                borderRadius: "50%",
+                boxShadow:
+                  "0 0 20px 10px rgba(222, 68, 50, 0.2), 0 0 40px 20px rgba(222, 68, 50, 0.2)",
+              }}
+              layout="fixed"
             />
-            {isModalOpen && <VoiceTranscript text={voiceTranscript} />}
           </div>
         </footer>
       </div>

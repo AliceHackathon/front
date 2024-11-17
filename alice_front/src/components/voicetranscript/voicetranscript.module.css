@@ -1,6 +1,6 @@
 .transcriptContainer {
   position: absolute;
-  bottom: 60px; /* 마이크 이미지 위로 배치 */
+  bottom: 250px; /* 마이크 이미지 위로 배치 */
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.9);

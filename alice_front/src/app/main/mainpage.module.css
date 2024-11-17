@@ -108,7 +108,7 @@
   width: 80px;
   border-radius: 100px;
   padding: 10px;
-  z-index: 6;
+  /* z-index: 6; */
 }
 
 .transcriptBox {
