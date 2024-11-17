@@ -1,0 +1,29 @@
+.navBar {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  gap: 20px;
+  position: fixed;
+  bottom: 18%;
+  font-family: "Pretendard";
+  font-weight: 600;
+}
+
+/* 공통 버튼 스타일 */
+.button {
+  width: 70px;
+  padding: 4px;
+  border: 2px solid #de4432;
+  border-radius: 66.7px;
+  background-color: #fff;
+  color: #de4432;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 6.42px 6.42px 0px 0px #ffdfdb;
+}
+
+/* 선택된 버튼 스타일 (공통 스타일에 추가) */
+.selectedButton {
+  background-color: #de4432;
+  color: #fff;
+}

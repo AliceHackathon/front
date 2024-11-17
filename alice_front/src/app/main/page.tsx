@@ -4,10 +4,17 @@ import Image from "next/image";
 import styles from "./mainpage.module.css";
 import character from "../images/character.png";
 import voice from "../images/voice.png";
-import cart from "../images/cart.png";
-import payment from "../images/payment.png";
 import { useState, useEffect, useRef } from "react";
 import Card from "@/components/card/card";
+import OvalBackground from "@/components/background/background";
+import NavBar from "@/components/navBar/navBar";
+
+const dummyData = [
+  { sender: "server", text: "안녕하세요? 오늘 어떠신가요?" },
+  { sender: "server", text: "엘리에게 직접 주문해보세요!" },
+  { sender: "user", text: "추천 메뉴가 있니?" },
+  { sender: "server", text: "아래와 같은 메뉴가 있습니다." },
+];
 
 const menuItems = [
   {
@@ -27,15 +34,22 @@ const menuItems = [
 export default function MainPage() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
-  const [chatMessages, setChatMessages] = useState<
-    { sender: "user" | "server"; text: string }[]
-  >([]);
+  const [chatMessages, setChatMessages] = useState(dummyData);
   const [showMenuCards, setShowMenuCards] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(
     null
   );
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
+
+  // 텍스트 길이에 따라 너비 계산
+  const getMessageWidth = (text: string) => {
+    const length = text.length;
+    const baseWidth = 80; // 최소 너비 (픽셀)
+    const maxWidth = window.innerWidth * 0.3; // 최대 너비는 화면의 30%
+    const calculatedWidth = baseWidth + length * 10; // 글자 수에 따라 너비 계산
+    return Math.min(calculatedWidth, maxWidth); // 최대 너비 제한
+  };
 
   // 음성 인식 시작
   const startListening = () => {
@@ -107,7 +121,6 @@ export default function MainPage() {
       ...prevMessages,
       { sender: "user", text: message },
     ]);
-    // "추천 메뉴"라는 키워드를 포함할 경우 메뉴 추천 표시
     if (message.includes("추천 메뉴")) {
       handleMenuRecommendation();
     } else {
@@ -129,9 +142,7 @@ export default function MainPage() {
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message }),
       });
 
@@ -159,14 +170,12 @@ export default function MainPage() {
     <>
       <div className={styles.characterSection}>
         <div className={styles.container2}>
+          <OvalBackground width="130%" height="40%" />
           <Image
             src={character}
             alt="Character"
             className={styles.characterImage}
           />
-        </div>
-        <div className={styles.ask}>
-          <p>엘리에게 직접 주문해보세요!</p>
         </div>
         <div className={styles.chatBox}>
           {chatMessages.map((message, index) => (
@@ -177,6 +186,7 @@ export default function MainPage() {
                   ? styles.userMessage
                   : styles.serverMessage
               }
+              style={{ width: `${getMessageWidth(message.text)}px` }}
             >
               {message.text}
             </div>
@@ -184,7 +194,6 @@ export default function MainPage() {
           <div ref={chatEndRef} />
         </div>
 
-        {/* 메뉴 카드 표시 */}
         {showMenuCards && (
           <div className={styles.menuList}>
             {menuItems.map((menu, index) => (
@@ -192,6 +201,8 @@ export default function MainPage() {
             ))}
           </div>
         )}
+
+        <NavBar />
 
         <footer
           style={{
@@ -202,7 +213,7 @@ export default function MainPage() {
             width: "100%",
           }}
         >
-          <Image src={cart} alt="" className={styles.img} layout="fixed" />
+          {/* <Image src={cart} alt="" className={styles.img} layout="fixed" /> */}
           <Image
             src={voice}
             alt="Voice"
@@ -216,7 +227,7 @@ export default function MainPage() {
             }}
             layout="fixed"
           />
-          <Image src={payment} alt="" className={styles.img} layout="fixed" />
+          {/* <Image src={payment} alt="" className={styles.img} layout="fixed" /> */}
         </footer>
       </div>
     </>
