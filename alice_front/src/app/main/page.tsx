@@ -157,10 +157,6 @@ export default function MainPage() {
   };
 
   const handleCardClick = () => setIsModalOpen(true);
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setVoiceTranscript("");
-  };
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
