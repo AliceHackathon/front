@@ -21,12 +21,11 @@ export default function HomePage() {
           </p>
         </div>
         {/* <Image src={character} alt="character" width={300} height={300} /> */}
-        <Image
-          src="../../public/static/startAnimation.gif"
+        <img
+          src="..//startAnimation.gif"
           alt="Sample GIF"
           width={300}
           height={200}
-          unoptimized
         />
         <button className={styles.button}>
           <Link href="/main">화면을 눌러주세요 {">"}</Link>
