@@ -8,7 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import Card from "@/components/card/card";
 import OvalBackground from "@/components/background/background";
 import NavBar from "@/components/navBar/navBar";
-import VoiceTranscript from "@/components/voicetranscript/VoiceTranscript";
+import VoiceTranscript from "@/components/voicetranscript/voicetranscript";
 
 const isClient = typeof window !== "undefined";
 
