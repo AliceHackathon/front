@@ -217,7 +217,7 @@ export default function MainPage() {
               src={voice}
               alt="Voice"
               onClick={isListening ? stopListening : startListening}
-              className={styles.img}
+              className={isListening ? styles.img2 : styles.img}
               style={{
                 background: "white",
                 borderRadius: "50%",

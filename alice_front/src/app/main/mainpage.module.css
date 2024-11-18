@@ -109,6 +109,21 @@
   border-radius: 100px;
   padding: 10px;
   /* z-index: 6; */
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 20px 10px rgba(222, 68, 50, 0.2),
+    0 0 40px 20px rgba(222, 68, 50, 0.2);
+}
+
+.img2 {
+  width: 80px;
+  border-radius: 100px;
+  padding: 10px;
+  /* z-index: 6; */
+  background-color: #fba79e;
+  border-radius: 50%;
+  box-shadow: 0 0 20px 10px rgba(222, 68, 50, 0.2),
+    0 0 40px 20px rgba(222, 68, 50, 0.2);
 }
 
 .transcriptBox {
