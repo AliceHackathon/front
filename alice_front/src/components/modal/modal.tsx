@@ -1,6 +1,13 @@
 import styles from "./modal.module.css";
 import Image from "next/image";
 import hamburger from "../../app/images/hamburger.png";
+import MenuOptionSection from "@/components/menuOption/menuoptionsection/menuoptionsection";
+import {
+  burgerOptions,
+  dessertOptions,
+  drinkOptions,
+  sideOptions,
+} from "@/app/data/optionData";
 
 interface MenuItem {
   name: string;
@@ -31,6 +38,15 @@ export default function Modal({ item, onClose }: ModalProps) {
             </div>
             <p className={styles.priceText}>총 {item.price}</p>
           </div>
+        </div>
+        <div>
+          <MenuOptionSection title="햄버거 옵션" options={burgerOptions} />
+          <MenuOptionSection title="음료 변경" options={drinkOptions} />
+          <MenuOptionSection title="사이드 메뉴 변경" options={sideOptions} />
+          <MenuOptionSection
+            title="디저트 메뉴 추가"
+            options={dessertOptions}
+          />
         </div>
         <div className={styles.buttonContainer}>
           <button className={styles.closeButton} onClick={onClose}>

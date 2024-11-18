@@ -1,0 +1,18 @@
+.section {
+  display: flex;
+  /* justify-content: space-around; */
+  padding: 20px;
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #d02917;
+  margin-bottom: 10px;
+}
+
+.cardContainer {
+  display: flex;
+  gap: 20px;
+}
