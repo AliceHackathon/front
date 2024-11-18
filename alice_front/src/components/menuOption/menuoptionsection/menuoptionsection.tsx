@@ -7,10 +7,7 @@ interface MenuOptionSectionProps {
   title: string;
 }
 
-export default function MenuOptionSection({
-  options,
-  title,
-}: MenuOptionSectionProps) {
+export default function MenuOptionSection({ options }: MenuOptionSectionProps) {
   return (
     <div className={styles.section}>
       <div className={styles.cardContainer}>
