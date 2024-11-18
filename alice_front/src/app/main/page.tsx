@@ -24,13 +24,25 @@ const menuItems = [
   {
     name: "더블 1955 버거 세트",
     englishName: "Double 1955 Burger Meal",
+    composition: "세트 + 제로콜라 (R) + 윙 2조각",
     price: "8,600원",
   },
-  { name: "빅맥 세트", englishName: "Big Mac Meal", price: "7,500원" },
-  { name: "치즈버거 세트", englishName: "Cheeseburger Meal", price: "5,500원" },
+  {
+    name: "빅맥 세트",
+    englishName: "Big Mac Meal",
+    composition: "세트 + 제로콜라 (R) + 윙 2조각",
+    price: "7,500원",
+  },
+  {
+    name: "치즈버거 세트",
+    englishName: "Cheeseburger Meal",
+    composition: "세트 + 제로콜라 (R) + 윙 2조각",
+    price: "5,500원",
+  },
   {
     name: "상하이 스파이스 치킨버거 세트",
     englishName: "Shanghai Spice Chicken Meal",
+    composition: "세트 + 제로콜라 (R) + 윙 2조각",
     price: "8,000원",
   },
 ];
