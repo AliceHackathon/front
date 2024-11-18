@@ -158,21 +158,13 @@ export default function MainPage() {
 
   const handleCardClick = () => setIsModalOpen(true);
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setVoiceTranscript("");
-  };
-
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages]);
 
   return (
     <>
-      <div
-        className={styles.characterSection}
-        onClick={handleCloseModal} // 모달 외부 클릭 시 모달 닫기
-      >
+      <div className={styles.characterSection}>
         <OvalBackground width="130vw" height="40%" />
         <Image
           src={character}
@@ -202,9 +194,7 @@ export default function MainPage() {
             <Card key={index} menu={menu} onClick={handleCardClick} />
           ))}
         </div>
-
         {isModalOpen && <VoiceTranscript text={voiceTranscript} />}
-
         <footer
           style={{
             position: "fixed",
@@ -234,6 +224,7 @@ export default function MainPage() {
                 boxShadow:
                   "0 0 20px 10px rgba(222, 68, 50, 0.2), 0 0 40px 20px rgba(222, 68, 50, 0.2)",
               }}
+              layout="fixed"
             />
           </div>
         </footer>
