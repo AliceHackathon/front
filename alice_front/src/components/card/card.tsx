@@ -8,6 +8,7 @@ interface MenuItem {
   name: string;
   englishName: string;
   price: string;
+  composition: string;
 }
 
 interface CardProps {
