@@ -16,14 +16,16 @@ export default function Modal({ item, onClose }: ModalProps) {
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose}>
-          닫기
-        </button>
         <Image src={hamburger} alt={item.name} className={styles.modalImage} />
         <h2>{item.name}</h2>
         <p>{item.englishName}</p>
         <p>{item.price}</p>
-        <button className={styles.addButton}>장바구니에 추가</button>
+        <div className={styles.buttonContainer}>
+          <button className={styles.closeButton} onClick={onClose}>
+            돌아가기
+          </button>
+          <button className={styles.addButton}>장바구니에 추가</button>
+        </div>
       </div>
     </div>
   );

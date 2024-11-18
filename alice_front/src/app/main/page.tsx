@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./mainpage.module.css";
 import character from "../images/character.png";
 import voice from "../images/voice.png";
+import voiceActive from "../images/voiceActive.png";
 import { useState, useEffect, useRef } from "react";
 import Card from "@/components/card/card";
 import OvalBackground from "@/components/background/background";
@@ -214,10 +215,10 @@ export default function MainPage() {
             }}
           >
             <Image
-              src={voice}
+              src={isListening ? voiceActive : voice}
               alt="Voice"
               onClick={isListening ? stopListening : startListening}
-              className={isListening ? styles.img2 : styles.img}
+              className={styles.img}
               style={{
                 background: "white",
                 borderRadius: "50%",
